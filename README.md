@@ -1,4 +1,4 @@
 Brown Ant
 =========
 
-Brown Ant is a crawling framework.
+Brown Ant is a crawling anti-framework.
