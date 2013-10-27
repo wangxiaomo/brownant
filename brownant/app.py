@@ -6,6 +6,7 @@ from werkzeug.utils import import_string
 from werkzeug.urls import url_decode, url_encode
 from werkzeug.routing import Map, Rule, NotFound, RequestRedirect
 
+from .ctx import AppContext
 from .request import Request
 from .exceptions import NotSupported
 from .utils import to_bytes_safe
@@ -17,6 +18,7 @@ class BrownAnt(object):
     def __init__(self):
         self.url_map = Map(strict_slashes=False, host_matching=True,
                            redirect_defaults=False)
+        self.app_context().push()
 
     def add_url_rule(self, host, rule_string, endpoint, **options):
         """Add a url rule to the app instance.
@@ -101,3 +103,8 @@ class BrownAnt(object):
         if isinstance(site, string_types):
             site = import_string(site)
         site.play_actions(target=self)
+
+    def app_context(self):
+        """Binds the application only.
+        """
+        return AppContext(self)
